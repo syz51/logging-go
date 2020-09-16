@@ -230,3 +230,13 @@ func LoadConfigFromEnv(v *viper.Viper) (LogConfig, error) {
 
 	return instance, nil
 }
+
+// LoadConfigFromViper loads config values from existing viper configs
+func LoadConfigFromViper(v *viper.Viper, prefix string) (LogConfig, error) {
+	var instance LogConfig
+	if err := v.UnmarshalKey(prefix, &instance); err != nil {
+		return instance, err
+	}
+
+	return instance, nil
+}

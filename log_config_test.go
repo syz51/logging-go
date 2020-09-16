@@ -160,6 +160,25 @@ func TestLoadConfigFromEnv(t *testing.T) {
 	assertConfig(t, logConfig)
 }
 
+func TestLoadConfigFromViper(t *testing.T) {
+	wd, err := os.Getwd()
+	assert.NoError(t, err)
+
+	configPath := filepath.Join(wd, "assets", "config_from_viper.yml")
+	_, err = os.Stat(configPath)
+	assert.NoError(t, err)
+
+	v := viper.New()
+	v.SetConfigFile(configPath)
+	err = v.ReadInConfig()
+	assert.NoError(t, err)
+
+	logConfig, err := LoadConfigFromViper(v, "log")
+	require.NoError(t, err)
+
+	assertConfig(t, logConfig)
+}
+
 func setGlobalConfigEnv(t *testing.T) {
 	t.Helper()
 
